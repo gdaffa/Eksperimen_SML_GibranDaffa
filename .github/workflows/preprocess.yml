@@ -22,7 +22,7 @@ jobs:
       - name: Run Pipeline
         run: |
           python pipeline.py
-        working-directory: preprocessing/pipeline/
+        working-directory: preprocessing/
 
       - name: Save Preprocessor
         uses: actions/upload-artifact@v4
