@@ -1,0 +1,10 @@
+{
+   "dataset": "diamonds-price.arff",
+   "target_col": "price",
+   "outlier_treshold": 1.6,
+   "category_order": {
+      "cut"     : ["Fair", "Good", "Very Good", "Premium", "Ideal"],
+      "color"   : ["J", "I", "H", "G", "F", "E", "D"],
+      "clarity" : ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]
+   }
+}

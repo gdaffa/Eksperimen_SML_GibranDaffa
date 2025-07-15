@@ -1,1 +1,6 @@
+joblibs/*
+
 **/.ipynb_checkpoints/*
+**/__pycache__/*
+
+!.gitkeep
