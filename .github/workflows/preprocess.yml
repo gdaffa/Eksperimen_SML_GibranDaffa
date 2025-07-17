@@ -21,7 +21,9 @@ jobs:
 
       - name: Run Pipeline
         run: |
-          python pipeline.py
+          python pipeline.py diamonds-price.arff \
+            --target-col price \
+            --outlier-treshold 1.6
         working-directory: preprocessing/
 
       - name: Save Preprocessor
