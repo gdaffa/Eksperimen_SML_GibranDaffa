@@ -10,19 +10,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OrdinalEncoder
 from sklearn.model_selection import train_test_split
 
-class LogTransformer(BaseEstimator, TransformerMixin):
-   '''
-   Transformer that change all value with logarithmic function.
-   This is useful for handling exponential distribution.
-   '''
-   def fit(self, X):
-      return self
-
-   def transform(self, X):
-      return np.log(X)
-
-   def inverse_transform(self, X):
-      return np.exp(X)
+from transformer import LogTransformer
 
 def drop_duplicates(config, df: DataFrame):
    '''
