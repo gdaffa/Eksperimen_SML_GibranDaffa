@@ -76,7 +76,7 @@ def preprocess(config, df: DataFrame):
    category_cols = df_feat.select_dtypes(['object', 'string']).columns
    numeric_cols  = df_feat.select_dtypes(['int', 'float']).columns
 
-   category_order = list(config['category_order'].values())
+   category_order = list(config['metadata']['category_order'].values())
 
    pipe_category = Pipeline([
       ('imputer', SimpleImputer(strategy='most_frequent')),

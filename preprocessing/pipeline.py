@@ -1,11 +1,23 @@
 from pipeline import extract_main, preproces_main, load_main
+import argparse
 import json
 
-CONFIG_PATH = 'config.json'
+config = {}
+
+METADATA_PATH = 'metadata.json'
 
 def get_config() -> dict:
-   with open(CONFIG_PATH, 'r') as file:
-      config = json.load(file)
+   arg_parser = argparse.ArgumentParser()
+
+   arg_parser.add_argument('dataset')
+   arg_parser.add_argument('--target-col', default='price')
+   arg_parser.add_argument('--outlier-treshold', default=1.5, type=float)
+
+   args   = arg_parser.parse_args()
+   config = dict(args._get_kwargs())
+
+   with open(METADATA_PATH, 'r') as file:
+      config['metadata'] = json.load(file)
 
    return config
 
