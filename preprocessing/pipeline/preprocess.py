@@ -5,7 +5,6 @@ from pandas import DataFrame
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
-from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OrdinalEncoder
 from sklearn.model_selection import train_test_split
