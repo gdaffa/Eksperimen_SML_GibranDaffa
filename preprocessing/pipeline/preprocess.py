@@ -21,6 +21,8 @@ def drop_high_corr(config, df: DataFrame):
    '''
    Drop columns with high correlation (over 0.85)
    to target and another columns.
+
+   **THIS METHOD IS CURRENTLY NOT USED. BECAUSE IT ONLY CAPTURE LINEAR CORRELATION**
    '''
    target_col = config['target_col']
 
@@ -136,8 +138,8 @@ def main(config, df: DataFrame):
    Orchestration function for all process in `preprocess.py`.
    '''
    df_prep1 = drop_duplicates(config, df)
-   df_prep2 = drop_high_corr(config, df_prep1)
-   df_prep3 = drop_outlier(config, df_prep2)
+   # df_prep2 = drop_high_corr(config, df_prep1)
+   df_prep3 = drop_outlier(config, df_prep1)
    data     = preprocess(config, df_prep3)
    df_final = to_dataframe(config, data)
 
