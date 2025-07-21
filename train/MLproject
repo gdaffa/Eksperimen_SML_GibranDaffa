@@ -1,0 +1,6 @@
+name: training model
+
+entry_points:
+  main:
+    command: >
+      python modelling.py dataset/preprocessed/diamonds-price.csv
