@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Append root folder to access transformer folder.
+sys.path.append(os.path.abspath('../'))
+
 from pipeline import extract_main, preproces_main, load_main
 import argparse
 import json

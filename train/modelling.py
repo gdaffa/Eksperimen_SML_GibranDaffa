@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Append root folder to access transformer folder.
+sys.path.append(os.path.abspath('../'))
+
 import mlflow
 import pandas as pd
 import config as conf
