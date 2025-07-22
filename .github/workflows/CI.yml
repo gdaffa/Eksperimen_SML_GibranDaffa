@@ -23,7 +23,7 @@ jobs:
         run: |
           python pipeline.py diamonds-price.arff \
            --target-col price \
-           --outlier-treshold 1.6
+           --outlier-treshold 1.5
         working-directory: preprocessing/
 
       - name: Save Preprocessor
@@ -59,7 +59,7 @@ jobs:
           path: dataset/preprocessed/
 
       - name: Setup Python v3.12.5
-        uses: actions/setup-python@5
+        uses: actions/setup-python@v4
         with:
           python-version: 3.12.5
 
