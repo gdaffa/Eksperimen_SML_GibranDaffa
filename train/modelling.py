@@ -16,7 +16,7 @@ config = conf.get_config()
 with mlflow.start_run() as r:
    mlflow.autolog()
 
-   df = pd.read_csv(f'dataset/{config['dataset']}')
+   df = pd.read_csv(f'dataset/preprocessed/{config['dataset']}')
    df_feat = df.drop(columns=config['target_col'])
    df_targ = df[[config['target_col']]]
 

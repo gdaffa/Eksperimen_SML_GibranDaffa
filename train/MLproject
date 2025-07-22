@@ -3,4 +3,4 @@ name: training model
 entry_points:
   main:
     command: >
-      python modelling.py dataset/preprocessed/diamonds-price.csv
+      python modelling.py diamonds-price.csv
