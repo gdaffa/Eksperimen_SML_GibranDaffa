@@ -1,6 +1,13 @@
 name: CI with MLflow
 
-on: [push]
+on:
+  push:
+    paths:
+      - preprocessing/**
+      - '!preprocessing/notebook.ipynb'
+
+env:
+  DATASET_NAME: diamonds-price
 
 jobs:
   preprocess:
@@ -21,7 +28,7 @@ jobs:
 
       - name: Run Pipeline
         run: |
-          python pipeline.py diamonds-price.arff \
+          python pipeline.py $DATASET_NAME.arff \
            --target-col price \
            --outlier-treshold 1.5
         working-directory: preprocessing/
@@ -39,7 +46,7 @@ jobs:
         with:
           name: preprocessed_data
           path: |
-            dataset/preprocessed/diamonds-price.csv
+            dataset/preprocessed/$DATASET_NAME.csv
 
   integrate:
     env:
@@ -70,7 +77,7 @@ jobs:
 
       - name: Train the Model
         run: |
-          mlflow run --env-manager=local train
+          mlflow run --env-manager=local train -P dataset=$DATASET_NAME.csv
 
       - name: Get Run ID
         run: |
