@@ -2,5 +2,7 @@ name: training model
 
 entry_points:
   main:
+    parameters:
+      dataset: str
     command: >
-      python modelling.py diamonds-price.csv
+      python modelling.py {dataset}
