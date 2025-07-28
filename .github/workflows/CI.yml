@@ -5,6 +5,7 @@ on:
     paths:
       - preprocessing/**
       - '!preprocessing/notebook.ipynb'
+      - .github/workflows/**.yml
 
 env:
   DATASET_NAME: diamonds-price
