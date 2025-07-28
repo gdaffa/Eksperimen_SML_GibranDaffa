@@ -46,7 +46,7 @@ jobs:
         with:
           name: preprocessed_data
           path: |
-            dataset/preprocessed/$DATASET_NAME.csv
+            dataset/preprocessed/${{ env.DATASET_NAME }}.csv
 
   integrate:
     env:
