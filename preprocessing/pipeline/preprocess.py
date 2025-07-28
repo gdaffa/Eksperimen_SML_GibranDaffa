@@ -116,8 +116,9 @@ def preprocess(config, df: DataFrame):
    joblib.dump(x_preprocessor, x_preprocessor_path)
    joblib.dump(y_preprocessor, y_preprocessor_path)
 
+   feat_cols = x_preprocessor.get_feature_names_out()
    return {
-      'columns'       : df.columns,
+      'x_columns'     : [col.split('__')[1] for col in feat_cols],
       'splitted_data' : [X_train, X_test, y_train, y_test]
    }
 
@@ -125,7 +126,7 @@ def to_dataframe(config, data):
    '''
    Combine splitted data into DataFrame.
    '''
-   columns = data['columns']
+   columns = data['x_columns'] + [config['target_col']]
    X_train, X_test, y_train, y_test = data['splitted_data']
 
    X = [*X_train, *X_test]
