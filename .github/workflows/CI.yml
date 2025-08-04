@@ -26,9 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Pipeline
+      - name: Run Preprocessing
         run: |
-          python pipeline.py $DATASET_NAME.arff \
+          python automate_gibrandaffa.py $DATASET_NAME.arff \
            --target-col price \
            --outlier-treshold 1.5
         working-directory: preprocessing/

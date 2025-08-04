@@ -1,3 +1,59 @@
+import sys
+import os
+
+# Append root folder to access transformer folder.
+sys.path.append(os.path.abspath('../'))
+
+# =============================================================================
+# file: extract.py
+
+from pandas import DataFrame, read_csv
+from scipy.io.arff import loadarff
+
+RAW_DATASET_PATH = '../dataset/raw'
+
+def read_arff(filepath):
+   '''
+   Read dataset with `arff` type.
+   '''
+   data, _ = loadarff(filepath)
+   df      = DataFrame(data)
+
+   # Convert `byte` data type to a `string` data type.
+   category_cols     = df.select_dtypes('object').columns
+   df[category_cols] = df[category_cols].apply(lambda series: series.str.decode('utf-8'))
+
+   return df
+
+def read(config) -> DataFrame:
+   '''
+   Read dataset in `RAW_DATASET_PATH` by file type and return a DataFrame.
+   '''
+   try:
+      filename = config['dataset']
+      filetype = filename.split('.')[-1]
+      filepath = f'{RAW_DATASET_PATH}/{filename}'
+
+      readers = {
+         'read_arff': read_arff,
+         'read_csv': read_csv
+      }
+
+      return readers[f'read_{filetype}'](filepath)
+
+   except IndexError:
+      raise ValueError('File type is invalid.')
+
+def extract_main(config):
+   '''
+   Orchestration function for all process in `extract.py`.
+   '''
+   df = read(config)
+   return df
+
+# =============================================================================
+# file: preprocess.py
+
 import numpy as np
 import joblib
 from pandas import DataFrame
@@ -134,7 +190,7 @@ def to_dataframe(config, data):
 
    return DataFrame(np.concatenate((X, y), axis=1), columns=columns)
 
-def main(config, df: DataFrame):
+def preprocess_main(config, df: DataFrame):
    '''
    Orchestration function for all process in `preprocess.py`.
    '''
@@ -145,3 +201,61 @@ def main(config, df: DataFrame):
    df_final = to_dataframe(config, data)
 
    return df_final
+
+# =============================================================================
+# file: load.py
+
+from pandas import DataFrame
+
+PREPROCESSED_DATASET_PATH = '../dataset/preprocessed'
+
+def save(config, df: DataFrame):
+   '''
+   Save dataset to CSV file in `PREPROCESSED_DATASET_PATH`.
+   '''
+   filename = config['dataset'].split('.')[0]
+   return df.to_csv(f'{PREPROCESSED_DATASET_PATH}/{filename}.csv', index=False)
+
+def load_main(config, df):
+   '''
+   Orchestration function for all process in `load.py`.
+   '''
+   return save(config, df)
+
+# =============================================================================
+# file: pipeline.py
+
+import argparse
+import json
+
+config = {}
+
+METADATA_PATH = 'metadata.json'
+
+def get_config() -> dict:
+   '''
+   Get configuration from CLI.
+   '''
+   arg_parser = argparse.ArgumentParser()
+
+   arg_parser.add_argument('dataset')
+   arg_parser.add_argument('--target-col', default='price')
+   arg_parser.add_argument('--outlier-treshold', default=1.5, type=float)
+
+   args   = arg_parser.parse_args()
+   config = dict(args._get_kwargs())
+
+   with open(METADATA_PATH, 'r') as file:
+      config['metadata'] = json.load(file)
+
+   return config
+
+def main():
+   config = get_config()
+
+   df = extract_main(config)
+   splitted_data = preprocess_main(config, df)
+   load_main(config, splitted_data)
+
+if __name__ == '__main__':
+   main()
