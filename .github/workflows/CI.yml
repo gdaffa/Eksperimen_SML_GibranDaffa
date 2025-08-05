@@ -5,6 +5,7 @@ on:
     paths:
       - preprocessing/**
       - '!preprocessing/notebook.ipynb'
+      - .github/workflows/**.yml
 
 env:
   GIT_NAME: ${{ secrets.GIT_NAME }}
@@ -56,7 +57,7 @@ jobs:
         with:
           name: preprocessed_data
           path: |
-            dataset/preprocessed/$DATASET_NAME.csv
+            dataset/preprocessed/${{ env.DATASET_NAME }}.csv
 
   integrate:
     env:
