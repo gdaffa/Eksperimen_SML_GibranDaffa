@@ -12,6 +12,9 @@ env:
   GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
   DATASET_NAME: diamonds-price
 
+permissions:
+  contents: write
+
 jobs:
   preprocess:
     runs-on: ubuntu-latest
