@@ -7,6 +7,8 @@ on:
       - '!preprocessing/notebook.ipynb'
 
 env:
+  GIT_NAME: ${{ secrets.GIT_NAME }}
+  GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
   DATASET_NAME: diamonds-price
 
 jobs:
@@ -41,7 +43,15 @@ jobs:
             joblibs/*
             !.gitkeep
 
-      - name: Save Preprocessed Data
+      - name: Commit Preprocessed Data
+        run: |
+          git config --global user.name $GIT_NAME
+          git config --global user.email $GIT_EMAIL
+          git add dataset
+          git commit -m "action: Preprocessed data on $(date +'%Y-%m-%d %H:%M:%S')"
+          git push origin main
+
+      - name: Upload Preprocessed Data
         uses: actions/upload-artifact@v4
         with:
           name: preprocessed_data
@@ -58,12 +68,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download Preprocessed Data
-        uses: actions/download-artifact@v4
-        with:
-          name: preprocessed_data
-          path: dataset/preprocessed/
 
       - name: Setup Python v3.12.5
         uses: actions/setup-python@v4
@@ -98,3 +102,14 @@ jobs:
       - name: Push Docker Image
         run: |
           docker push $DOCKER_IMAGENAME:1
+
+      - name: Commit Model with Git LFS
+        run: |
+          git config --global user.name $GIT_NAME
+          git config --global user.email $GIT_EMAIL
+          git lfs install
+          git lfs track 'mlruns/**'
+          git add .gitattributes
+          git add -f mlruns
+          git commit -m "action: Model on $(date +'%Y-%m-%d %H:%M:%S')"
+          git push origin main
