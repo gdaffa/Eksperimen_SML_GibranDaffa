@@ -52,7 +52,7 @@ jobs:
           git config --global user.name $GIT_NAME
           git config --global user.email $GIT_EMAIL
           git add dataset
-          git commit -m "action: Preprocessed data on $(date +'%Y-%m-%d %H:%M:%S')"
+          git commit -m "action: Preprocessed data on $(date +'%Y-%m-%d %H:%M:%S')" || true
           git push origin main
 
       - name: Upload Preprocessed Data
