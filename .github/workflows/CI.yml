@@ -73,6 +73,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Download Preprocessed Data
+        uses: actions/download-artifact@v4
+        with:
+          name: preprocessed_data
+          path: dataset/preprocessed
+
       - name: Setup Python v3.12.5
         uses: actions/setup-python@v4
         with:
